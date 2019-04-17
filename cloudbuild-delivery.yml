@@ -6,7 +6,7 @@ steps:
   args:
   - 'apply'
   - '-f'
-  - 'kubernetes.yaml'
+  - 'kubernetes.yml'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=asia-southeast1'
   - 'CLOUDSDK_CONTAINER_CLUSTER=demo-cicd'
