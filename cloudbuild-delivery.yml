@@ -1,6 +1,6 @@
 steps:
 # This step deploys the new version of our container image
-# in the hello-cloudbuild Kubernetes Engine cluster.
+# in the demo-cicd Kubernetes Engine cluster.
 - name: 'gcr.io/cloud-builders/kubectl'
   id: Deploy
   args:
