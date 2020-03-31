@@ -26,7 +26,7 @@ steps:
   args:
   - 'push'
   - 'gcr.io/$PROJECT_ID/demo-cicd:$SHORT_SHA'
-  steps:
+  
 # This step deploys the new version of our container image
 # in the demo-cicd Kubernetes Engine cluster.
 - name: 'gcr.io/cloud-builders/kubectl'
