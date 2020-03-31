@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: demo-cicd
-        image: gcr.io/GOOGLE_CLOUD_PROJECT/demo-cicd:COMMIT_SHA
+        image: gcr.io/project-24995/demo-cicd:latest
         ports:
         - containerPort: 8080
 ---
