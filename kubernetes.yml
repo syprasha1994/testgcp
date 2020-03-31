@@ -16,6 +16,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: demo-cicd
+  annotations:
+    alpha.image-policy.k8s.io/break-glass: "true"
   labels:
     app: demo-cicd
 spec:
