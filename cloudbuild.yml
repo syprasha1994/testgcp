@@ -26,16 +26,33 @@ steps:
   args:
   - 'push'
   - 'gcr.io/$PROJECT_ID/demo-cicd:latest'
-- id: 'create-attestation'
-  name: 'gcr.io/project-24995/cloudbuild-attestor:latest'
-  args:
-  - '--artifact-url'
-  - 'gcr.io/$PROJECT_ID/demo-cicd:latest'
-  - '--attestor'
-  - 'projects/$PROJECT_ID/attestors/vulnz-attestor'
-  - '--keyversion'
-  - 'projects/$PROJECT_ID/locations/asia-southeast1/keyRings/binauthz/cryptoKeys/vulnz-signer/cryptoKeyVersions/1'
   
+- name: gcr.io/$PROJECT_ID/cloudbuild-attestor
+  id: 'Check Vulnerability Scan results'
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |
+     /scripts/check_vulnerabilities.sh -p $PROJECT_ID -i gcr.io/$PROJECT_ID/demo-cicd:latest -t 5
+
+- name: 'gcr.io/$PROJECT_ID/cloudbuild-attestor'
+  id: 'Attest Vulnerability Scan'
+  entrypoint: 'sh'
+  args:
+  - -xe
+  - -c
+  - |-
+      FQ_DIGEST=$(gcloud container images describe --format 'value(image_summary.fully_qualified_digest)' gcr.io/$PROJECT_ID/demo-cicd:latest)
+      /scripts/create_attestation.sh \
+        -p "$PROJECT_ID" \
+        -i "$${FQ_DIGEST}" \
+        -a vulnz-attestor \
+        -v 1 \
+        -k vulnz-signer \
+        -l asia-southeast1 \
+        -r binauthz
+        
 # This step deploys the new version of our container image
 # in the demo-cicd Kubernetes Engine cluster.
 - name: 'gcr.io/cloud-builders/kubectl'
