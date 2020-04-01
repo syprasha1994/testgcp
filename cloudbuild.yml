@@ -27,7 +27,7 @@ steps:
   - 'push'
   - 'gcr.io/$PROJECT_ID/demo-cicd:latest'
 - id: 'create-attestation'
-  name: 'gcr.io/${PROJECT_ID}/binauthz-attestation:latest'
+  name: 'gcr.io/project-24995/cloudbuild-attestor:latest'
   args:
   - '--artifact-url'
   - 'gcr.io/$PROJECT_ID/demo-cicd:latest'
